@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senhas - Naruto Ultimate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff6200, #1a1a1a);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #ff6200;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .password-box {
+            background: #fff;
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .options label {
+            font-size: 1.1em;
+        }
+
+        .options input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            background: #ff6200;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #e55a00;
+        }
+
+        .characters {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .characters img {
+            width: 100px;
+            border-radius: 50%;
+            border: 3px solid #ff6200;
+            transition: transform 0.3s;
+        }
+
+        .characters img:hover {
+            transform: scale(1.1);
+        }
+
+        .login-section {
+            margin-top: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .login-section h2 {
+            color: #ff6200;
+            margin-bottom: 20px;
+        }
+
+        .login-section input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 1em;
+        }
+
+        .login-section button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Senhas - Naruto Ultimate</h1>
+        <div class="password-box" id="password">Clique em "Gerar" para começar!</div>
+        <div class="options">
+            <label>Tamanho da senha: <input type="number" id="length" value="12" min="6" max="20"></label>
+            <label><input type="checkbox" id="uppercase" checked> Letras maiúsculas</label>
+            <label><input type="checkbox" id="lowercase" checked> Letras minúsculas</label>
+            <label><input type="checkbox" id="numbers" checked> Números</label>
+            <label><input type="checkbox" id="symbols" checked> Símbolos</label>
+        </div>
+        <button onclick="generatePassword()">Gerar Senha</button>
+    </div>
+
+    <div class="characters">
+        <img src="imagens/naruto.jpg" alt="Naruto">
+        <img src="imagens/saske.jpg" alt="Sasuke">
+        <img src="imagens/sakura.jpg" alt="Sakura">
+        <img src="imagens/kakaxi.jpg" alt="Kakashi">
+    </div>
+
+    <div class="login-section">
+        <h2>Faça Login</h2>
+        <input type="text" id="username" placeholder="Usuário">
+        <input type="password" id="passwordInput" placeholder="Senha">
+        <button onclick="login()">Entrar</button>
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = document.getElementById('length').value;
+            const uppercase = document.getElementById('uppercase').checked;
+            const lowercase = document.getElementById('lowercase').checked;
+            const numbers = document.getElementById('numbers').checked;
+            const symbols = document.getElementById('symbols').checked;
+
+            const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowerChars = 'abcdefghijklmnopqrstuvwxyz';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            let allChars = '';
+            let password = '';
+
+            if (uppercase) allChars += upperChars;
+            if (lowercase) allChars += lowerChars;
+            if (numbers) allChars += numberChars;
+            if (symbols) allChars += symbolChars;
+
+            if (allChars === '') {
+                alert('Selecione pelo menos uma opção!');
+                return;
+            }
+
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * allChars.length);
+                password += allChars[randomIndex];
+            }
+
+            document.getElementById('password').textContent = password;
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('passwordInput').value;
+
+            if (username && password) {
+                alert(`Bem-vindo, ${username}! (Login simulado)`);
+            } else {
+                alert('Por favor, preencha todos os campos!');
+            }
+        }
+    </script>
+</body>
+</html>
